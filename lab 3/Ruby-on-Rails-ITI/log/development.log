@@ -1,0 +1,209 @@
+  [1m[35m (143.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2024-05-02 21:45:20.039609', '2024-05-02 21:45:20.039615') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateAuthors (20240502214420)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE TABLE "authors" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20240502214420') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePosts (20240502214442)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "content" text, "author_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_04d13ef8c7"
+FOREIGN KEY ("author_id")
+  REFERENCES "authors" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_posts_on_author_id" ON "posts" ("author_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20240502214442') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/authors" for ::1 at 2024-05-03 00:57:31 +0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AuthorsController#create as */*
+  Parameters: {"name"=>"menna", "author"=>{"name"=>"menna"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mAuthor Create (2.2ms)[0m  [1m[32mINSERT INTO "authors" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "menna"], ["created_at", "2024-05-02 21:57:31.937924"], ["updated_at", "2024-05-02 21:57:31.937924"]]
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (242.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+Completed 201 Created in 298ms (Views: 1.0ms | ActiveRecord: 247.8ms | Allocations: 12603)
+
+
+Started POST "/authors" for ::1 at 2024-05-03 00:58:16 +0300
+Processing by AuthorsController#create as */*
+  Parameters: {"name"=>"menna", "author"=>{"name"=>"menna"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mAuthor Create (3.2ms)[0m  [1m[32mINSERT INTO "authors" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "menna"], ["created_at", "2024-05-02 21:58:16.690196"], ["updated_at", "2024-05-02 21:58:16.690196"]]
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+Completed 201 Created in 9ms (Views: 0.6ms | ActiveRecord: 3.6ms | Allocations: 1715)
+
+
+Started GET "/authors/1" for ::1 at 2024-05-03 01:00:27 +0300
+Processing by AuthorsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mAuthor Load (0.3ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/authors_controller.rb:44:in `set_author'
+Completed 200 OK in 51ms (Views: 0.5ms | ActiveRecord: 0.3ms | Allocations: 4851)
+
+
+Started PUT "/authors/1" for ::1 at 2024-05-03 01:01:28 +0300
+Processing by AuthorsController#update as */*
+  Parameters: {"name"=>"mona", "id"=>"1", "author"=>{"name"=>"mona"}}
+  [1m[36mAuthor Load (0.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/authors_controller.rb:44:in `set_author'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+  [1m[36mAuthor Update (1.8ms)[0m  [1m[33mUPDATE "authors" SET "name" = ?, "updated_at" = ? WHERE "authors"."id" = ?[0m  [["name", "mona"], ["updated_at", "2024-05-02 22:01:28.535663"], ["id", 1]]
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 2.1ms | Allocations: 2311)
+
+
+Started PATCH "/authors/1" for ::1 at 2024-05-03 01:03:41 +0300
+Processing by AuthorsController#update as */*
+  Parameters: {"name"=>"mona", "id"=>"1", "author"=>{"name"=>"mona"}}
+  [1m[36mAuthor Load (0.3ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/authors_controller.rb:44:in `set_author'
+Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.3ms | Allocations: 605)
+
+
+Started DELETE "/authors/1" for ::1 at 2024-05-03 01:04:40 +0300
+Processing by AuthorsController#destroy as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mAuthor Load (0.2ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/authors_controller.rb:44:in `set_author'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:38:in `destroy'
+  [1m[36mAuthor Destroy (3.2ms)[0m  [1m[31mDELETE FROM "authors" WHERE "authors"."id" = ?[0m  [["id", 1]]
+  ↳ app/controllers/authors_controller.rb:38:in `destroy'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:38:in `destroy'
+Completed 204 No Content in 12ms (ActiveRecord: 3.8ms | Allocations: 1673)
+
+
+Started POST "/authors/1" for ::1 at 2024-05-03 01:04:57 +0300
+  
+ActionController::RoutingError (No route matches [POST] "/authors/1"):
+  
+Started POST "/authors" for ::1 at 2024-05-03 01:05:08 +0300
+Processing by AuthorsController#create as */*
+  Parameters: {"name"=>"menna", "author"=>{"name"=>"menna"}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mAuthor Create (2.0ms)[0m  [1m[32mINSERT INTO "authors" ("name", "created_at", "updated_at") VALUES (?, ?, ?) RETURNING "id"[0m  [["name", "menna"], ["created_at", "2024-05-02 22:05:08.835918"], ["updated_at", "2024-05-02 22:05:08.835918"]]
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:20:in `create'
+Completed 201 Created in 8ms (Views: 0.5ms | ActiveRecord: 2.3ms | Allocations: 1698)
+
+
+Started GET "/authors" for ::1 at 2024-05-03 01:05:49 +0300
+Processing by AuthorsController#index as */*
+  [1m[36mAuthor Load (0.3ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/controllers/authors_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.3ms | Allocations: 751)
+
+
+Started PATCH "/authors/2" for ::1 at 2024-05-03 01:06:08 +0300
+Processing by AuthorsController#update as */*
+  Parameters: {"name"=>"mona", "id"=>"2", "author"=>{"name"=>"mona"}}
+  [1m[36mAuthor Load (0.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/authors_controller.rb:44:in `set_author'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+  [1m[36mAuthor Update (2.8ms)[0m  [1m[33mUPDATE "authors" SET "name" = ?, "updated_at" = ? WHERE "authors"."id" = ?[0m  [["name", "mona"], ["updated_at", "2024-05-02 22:06:08.156623"], ["id", 2]]
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/authors_controller.rb:29:in `update'
+Completed 200 OK in 9ms (Views: 0.4ms | ActiveRecord: 3.2ms | Allocations: 2088)
+
+
+Started POST "/posts" for ::1 at 2024-05-03 01:07:47 +0300
+Processing by PostsController#create as */*
+  Parameters: {"title"=>"post1", "content"=>"content1", "author_id"=>2, "post"=>{"title"=>"post1", "content"=>"content1", "author_id"=>2}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mAuthor Load (2.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mPost Create (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "author_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "post1"], ["content", "content1"], ["author_id", 2], ["created_at", "2024-05-02 22:07:47.229508"], ["updated_at", "2024-05-02 22:07:47.229508"]]
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+Completed 201 Created in 49ms (Views: 0.7ms | ActiveRecord: 4.4ms | Allocations: 11017)
+
+
+Started POST "/posts" for ::1 at 2024-05-03 01:08:09 +0300
+Processing by PostsController#create as */*
+  Parameters: {"title"=>"post2", "content"=>"content2", "author_id"=>2, "post"=>{"title"=>"post2", "content"=>"content2", "author_id"=>2}}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mAuthor Load (3.0ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mPost Create (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "author_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "post2"], ["content", "content2"], ["author_id", 2], ["created_at", "2024-05-02 22:08:09.898669"], ["updated_at", "2024-05-02 22:08:09.898669"]]
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:20:in `create'
+Completed 201 Created in 11ms (Views: 0.5ms | ActiveRecord: 3.7ms | Allocations: 2512)
+
+
+Started GET "/posts/1" for ::1 at 2024-05-03 01:08:56 +0300
+Processing by PostsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:44:in `set_post'
+Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.2ms | Allocations: 699)
+
+
+Started GET "/posts" for ::1 at 2024-05-03 01:09:33 +0300
+Processing by PostsController#index as */*
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/controllers/posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.3ms | Allocations: 751)
+
+
+Started GET "/posts/2" for ::1 at 2024-05-03 01:10:16 +0300
+Processing by PostsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:44:in `set_post'
+Completed 200 OK in 3ms (Views: 0.5ms | ActiveRecord: 0.2ms | Allocations: 474)
+
+
+Started GET "/2/posts" for ::1 at 2024-05-03 01:10:28 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/2/posts"):
+  
+Started PATCH "/posts/1" for ::1 at 2024-05-03 01:11:54 +0300
+Processing by PostsController#update as */*
+  Parameters: {"title"=>"post2", "content"=>"content10", "author_id"=>2, "id"=>"1", "post"=>{"title"=>"post2", "content"=>"content10", "author_id"=>2}}
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:44:in `set_post'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:29:in `update'
+  [1m[36mPost Update (2.5ms)[0m  [1m[33mUPDATE "posts" SET "title" = ?, "content" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["title", "post2"], ["content", "content10"], ["updated_at", "2024-05-02 22:11:54.435982"], ["id", 1]]
+  ↳ app/controllers/posts_controller.rb:29:in `update'
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:29:in `update'
+Completed 200 OK in 14ms (Views: 0.5ms | ActiveRecord: 4.2ms | Allocations: 2119)
+
+
+Started DELETE "/posts/2" for ::1 at 2024-05-03 01:12:28 +0300
+Processing by PostsController#destroy as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:44:in `set_post'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:38:in `destroy'
+  [1m[36mPost Destroy (1.6ms)[0m  [1m[31mDELETE FROM "posts" WHERE "posts"."id" = ?[0m  [["id", 2]]
+  ↳ app/controllers/posts_controller.rb:38:in `destroy'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:38:in `destroy'
+Completed 204 No Content in 7ms (ActiveRecord: 2.3ms | Allocations: 1610)
+
+
